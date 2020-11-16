@@ -1,2 +1,6 @@
 @import "custom";
 @import "~bootstrap/scss/bootstrap";
+
+.fc-bg-event {
+	--fc-bg-event-opacity: 0.7; //background event color
+}
