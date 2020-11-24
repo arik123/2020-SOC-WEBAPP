@@ -45,10 +45,27 @@ class RegistrationFormType extends AbstractType
                 ],
             ])
             ->add("Car", CheckboxType::class, [
-                'label' => "mám auto?"
+                'label' => "mám auto?",
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Please enter a password',
+                    ])
+                ]
             ])
-            ->add("Meno", TextType::class)
-            ->add("Priezvisko", TextType::class)
+            ->add("Meno", TextType::class, [
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Please enter a password',
+                    ])
+                ]
+            ])
+            ->add("Priezvisko", TextType::class, [
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Please enter a password',
+                    ])
+                ]
+            ])
         ;
     }
 

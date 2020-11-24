@@ -40,25 +40,21 @@ class User implements UserInterface
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
-     * @Assert\NotBlank
      */
     private $password;
 
     /**
      * @ORM\Column(type="boolean")
-     * @Assert\NotBlank
      */
     private $Car;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank
      */
     private $Meno;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank
      */
     private $Priezvisko;
 
