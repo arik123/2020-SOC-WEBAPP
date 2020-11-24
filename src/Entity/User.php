@@ -7,6 +7,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 
+use Symfony\Component\Validator\Constraints as Assert;
+
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @ORM\Table(name="`user`")
@@ -23,6 +25,10 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Assert\NotBlank
+     * @Assert\Email(
+     *     message = "The email '{{ value }}' is not a valid email."
+     * )
      */
     private $email;
 
@@ -34,8 +40,27 @@ class User implements UserInterface
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
+     * @Assert\NotBlank
      */
     private $password;
+
+    /**
+     * @ORM\Column(type="boolean")
+     * @Assert\NotBlank
+     */
+    private $Car;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank
+     */
+    private $Meno;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank
+     */
+    private $Priezvisko;
 
     public function getId(): ?int
     {
@@ -113,5 +138,41 @@ class User implements UserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    public function getCar(): ?bool
+    {
+        return $this->Car;
+    }
+
+    public function setCar(bool $Car): self
+    {
+        $this->Car = $Car;
+
+        return $this;
+    }
+
+    public function getMeno(): ?string
+    {
+        return $this->Meno;
+    }
+
+    public function setMeno(string $Meno): self
+    {
+        $this->Meno = $Meno;
+
+        return $this;
+    }
+
+    public function getPriezvisko(): ?string
+    {
+        return $this->Priezvisko;
+    }
+
+    public function setPriezvisko(string $Priezvisko): self
+    {
+        $this->Priezvisko = $Priezvisko;
+
+        return $this;
     }
 }

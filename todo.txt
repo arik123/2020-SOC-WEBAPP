@@ -1,0 +1,8 @@
+VERONIKA -
+pozrieť LaTeX
+pozrieť graficky design appky
+MAX -
+Registrácia, login, user
+
+make migration of added user data
+add user data to form
