@@ -2,7 +2,17 @@ VERONIKA -
 pozrieť LaTeX
 pozrieť graficky design appky
 MAX -
-Registrácia, login, user
+registracia - auto - popis 
+-mozno obrazok
+
 
 make migration of added user data
 add user data to form
+[2020-11-24T13:48:46.488973+01:00] request.CRITICAL: 
+Uncaught PHP Exception Doctrine\DBAL\Exception\NotNullConstraintViolationException: 
+"An exception occurred while executing 'INSERT INTO "user" (id, email, roles, password) VALUES (?, ?, ?, ?)' with params 
+[3, "hanulikova64@gmail.com", "[]", "$argon2id$v=19$m=65536,t=4,p=1$ZZqm4Zrut9bakvD6z+wxbQ$7JpHvGbaRK1HBIP8aUMhnkt83LT7m5QhOTLjX8lOOcM"]:
+  SQLSTATE[23502]: Not null violation: 7 ERROR:  null value in column "car" violates not-null constraint DETAIL:
+  Failing row contains (3, hanulikova64@gmail.com, [], $argon2id$v=19$m=65536,t=4,p=1$ZZqm4Zrut9bakvD6z+wxbQ$7JpHvGbaRK..., null, null, null)."
+  at /data/9/9/998513a5-6722-4a5a-9f3e-87300cc4178e/coderdojo.sk/sub/maxtest/vendor/doctrine/dbal/lib/Doctrine/DBAL/Driver/AbstractPostgreSQLDriver.php line 64 
+  {"exception":"[object] (Doctrine\\DBAL\\Exception\\NotNullConstraintViolationException(code: 0): An exception occurred while executing 'INSERT INTO \"user\" (id, email, roles, password) VALUES (?, ?, ?, ?)' with params [3, \"hanulikova64@gmail.com\", \"[]\", \"$argon2id$v=19$m=65536,t=4,p=1$ZZqm4Zrut9bakvD6z+wxbQ$7JpHvGbaRK1HBIP8aUMhnkt83LT7m5QhOTLjX8lOOcM\"]:\n\nSQLSTATE[23502]: Not null violation: 7 ERROR:  null value in column \"car\" violates not-null constraint\nDETAIL:  Failing row contains (3, hanulikova64@gmail.com, [], $argon2id$v=19$m=65536,t=4,p=1$ZZqm4Zrut9bakvD6z+wxbQ$7JpHvGbaRK..., null, null, null). at /data/9/9/998513a5-6722-4a5a-9f3e-87300cc4178e/coderdojo.sk/sub/maxtest/vendor/doctrine/dbal/lib/Doctrine/DBAL/Driver/AbstractPostgreSQLDriver.php:64)\n[previous exception] [object] (Doctrine\\DBAL\\Driver\\PDO\\Exception(code: 23502): SQLSTATE[23502]: Not null violation: 7 ERROR:  null value in column \"car\" violates not-null constraint\nDETAIL:  Failing row contains (3, hanulikova64@gmail.com, [], $argon2id$v=19$m=65536,t=4,p=1$ZZqm4Zrut9bakvD6z+wxbQ$7JpHvGbaRK..., null, null, null). at /data/9/9/998513a5-6722-4a5a-9f3e-87300cc4178e/coderdojo.sk/sub/maxtest/vendor/doctrine/dbal/lib/Doctrine/DBAL/Driver/PDO/Exception.php:18)\n[previous exception] [object] (PDOException(code: 23502): SQLSTATE[23502]: Not null violation: 7 ERROR:  null value in column \"car\" violates not-null constraint\nDETAIL:  Failing row contains (3, hanulikova64@gmail.com, [], $argon2id$v=19$m=65536,t=4,p=1$ZZqm4Zrut9bakvD6z+wxbQ$7JpHvGbaRK..., null, null, null). at /data/9/9/998513a5-6722-4a5a-9f3e-87300cc4178e/coderdojo.sk/sub/maxtest/vendor/doctrine/dbal/lib/Doctrine/DBAL/Driver/PDOStatement.php:115)"} []

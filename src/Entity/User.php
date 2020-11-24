@@ -58,6 +58,11 @@ class User implements UserInterface
      */
     private $Priezvisko;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $CarDescription;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -168,6 +173,18 @@ class User implements UserInterface
     public function setPriezvisko(string $Priezvisko): self
     {
         $this->Priezvisko = $Priezvisko;
+
+        return $this;
+    }
+
+    public function getCarDescription(): ?string
+    {
+        return $this->CarDescription;
+    }
+
+    public function setCarDescription(?string $CarDescription): self
+    {
+        $this->CarDescription = $CarDescription;
 
         return $this;
     }

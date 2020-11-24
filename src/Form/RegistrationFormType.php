@@ -46,11 +46,7 @@ class RegistrationFormType extends AbstractType
             ])
             ->add("Car", CheckboxType::class, [
                 'label' => "mám auto?",
-                'constraints' => [
-                    new NotBlank([
-                        'message' => 'Please enter a password',
-                    ])
-                ]
+                'required' => false
             ])
             ->add("Meno", TextType::class, [
                 'constraints' => [
@@ -64,7 +60,19 @@ class RegistrationFormType extends AbstractType
                     new NotBlank([
                         'message' => 'Please enter a password',
                     ])
-                ]
+                ],
+                'required' => false
+            ])
+            ->add("CarDescription", TextType::class, [
+                'label' => "popis auta",
+                'constraints' => [
+                    new Length([
+                        'maxMessage' => 'Maximalna dlzka 255',
+                        // max length allowed by Symfony for security reasons
+                        'max' => 255,
+                    ]),
+                    ],
+                'required' => false
             ])
         ;
     }
