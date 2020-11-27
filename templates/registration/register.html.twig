@@ -16,7 +16,9 @@
         {{ form_row(registrationForm.plainPassword, {
             label: 'Password'
         }) }}
+        {{form_row(registrationForm.profilePicture)}}
         {{ form_row(registrationForm.Car)}}
+        {{ form_row(registrationForm.CarDescription)}}
         {{ form_row(registrationForm.agreeTerms) }}
 
         <button type="submit" class="btn">Register</button>

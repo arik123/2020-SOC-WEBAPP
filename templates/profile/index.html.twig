@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello IndexController!{% endblock %}
+
+{% block stylesheets %}
+{% endblock stylesheets %}
+
+{% block body %}
+<div>
+	<div>
+		profile
+	</div>
+	<div>
+		{% if user.profilePicture %}
+		<img src="{{ asset('uploads/profile_pics/' ~ user.profilePicture) }}" alt="profile pic" class="rounded-circle">
+		{% else %}
+			<img src="{{ asset('img/basic_profile_picture.png') }}" alt="default profile pic"  class="rounded-circle">
+		{% endif %}
+	</div>
+	<div>
+		{{user.Meno}} {{user.Priezvisko}}
+	</div>
+	<div>
+		{{user.email}}
+	</div>
+	<div>
+		{user.phoneNumber}
+	</div>
+	<div>
+		{{user.carDescription}}
+	</div>
+	<div>
+		{user.selfDescription}
+	</div>
+
+</div>
+{% endblock %}
+
+{% block javascripts %}
+{% endblock javascripts %}

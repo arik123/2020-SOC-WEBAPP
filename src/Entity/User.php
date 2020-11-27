@@ -63,6 +63,23 @@ class User implements UserInterface
      */
     private $CarDescription;
 
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $profilePicture;
+
+    public function getProfilePicture()
+    {
+        return $this->profilePicture;
+    }
+
+    public function setProfilePicture($profilePicture)
+    {
+        $this->profilePicture = $profilePicture;
+
+        return $this;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
