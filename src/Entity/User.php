@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -67,6 +69,22 @@ class User implements UserInterface
      * @ORM\Column(type="string", nullable=true)
      */
     private $profilePicture;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Route::class, mappedBy="driver")
+     */
+    private $driver;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Route::class, mappedBy="passenger")
+     */
+    private $passenger;
+
+    public function __construct()
+    {
+        $this->driver = new ArrayCollection();
+        $this->passenger = new ArrayCollection();
+    }
 
     public function getProfilePicture()
     {
@@ -202,6 +220,63 @@ class User implements UserInterface
     public function setCarDescription(?string $CarDescription): self
     {
         $this->CarDescription = $CarDescription;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Route[]
+     */
+    public function getDriver(): Collection
+    {
+        return $this->driver;
+    }
+
+    public function addRoute(Route $route): self
+    {
+        if (!$this->driver->contains($route)) {
+            $this->driver[] = $route;
+            $route->setDriver($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRoute(Route $route): self
+    {
+        if ($this->driver->removeElement($route)) {
+            // set the owning side to null (unless already changed)
+            if ($route->getDriver() === $this) {
+                $route->setDriver(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Route[]
+     */
+    public function getPassenger(): Collection
+    {
+        return $this->passenger;
+    }
+
+    public function addPassenger(Route $passenger): self
+    {
+        if (!$this->passenger->contains($passenger)) {
+            $this->passenger[] = $passenger;
+            $passenger->addPassenger($this);
+        }
+
+        return $this;
+    }
+
+    public function removePassenger(Route $passenger): self
+    {
+        if ($this->passenger->removeElement($passenger)) {
+            $passenger->removePassenger($this);
+        }
 
         return $this;
     }

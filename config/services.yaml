@@ -33,3 +33,9 @@ services:
     App\Service\FileUploader:
         arguments:
             $targetDirectory: '%profile_picture_directory%'
+
+    Jsor\Doctrine\PostGIS\Event\ORMSchemaEventSubscriber:
+        tags:
+            -
+                name: doctrine.event_subscriber
+                connection: 'default'
