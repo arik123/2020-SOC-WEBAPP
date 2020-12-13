@@ -7,7 +7,33 @@
         {% block stylesheets %}{% endblock %}
     </head>
     <body>
-        {% block body %}{% endblock %}
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+            <a class="navbar-brand">
+                <img src="/img/logo.svg" alt="" width="40" height="24" class="d-inline-block align-top m-1">
+            </a>
+            <button class="navbar-toggler" data-target="#main-nav" data-toggle="collapse" aria-controls="main-nav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div id="main-nav" class="collapse navbar-collapse">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">item <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">item2</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">item3 </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">itt</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <div class="container text-center border border-2 border-info rounded mt-1">
+            {% block body %}{% endblock %}
+        </div>
         {% block javascripts %}{% endblock %}
         {% if app.user %}
         <div class="mb-3 w-50 mx-auto text-center">
