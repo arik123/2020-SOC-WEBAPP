@@ -18,11 +18,14 @@
         "@fullcalendar/interaction": "^5.4.0",
         "@fullcalendar/vue": "^5.4.0",
         "bootstrap": "^5.0.0-alpha3",
+        "leaflet": "^1.7.1",
+        "leaflet-defaulticon-compatibility": "^0.1.1",
         "popper.js": "^1.16.1",
         "sass": "^1.29.0",
         "sass-loader": "^10.1.0",
         "vue": "^2.6.12",
         "vue-loader": "^15.9.5",
-        "vue-template-compiler": "^2.6.12"
+        "vue-template-compiler": "^2.6.12",
+        "vue2-leaflet": "^2.6.0"
     }
 }

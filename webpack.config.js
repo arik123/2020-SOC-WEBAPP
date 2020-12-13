@@ -13,7 +13,7 @@ Encore
     .setPublicPath('/build')
     // only needed for CDN's or sub-directory deploy
     //.setManifestKeyPrefix('build/')
-
+   
     /*
      * ENTRY CONFIG
      *
@@ -25,6 +25,7 @@ Encore
      */
     .addEntry('index', './assets/index.js')
     .addEntry('base', './assets/base.js')
+    .addEntry('route', './assets/route.js')
     //.addEntry('page1', './assets/page1.js')
     //.addEntry('page2', './assets/page2.js')
 
@@ -47,7 +48,6 @@ Encore
     .enableSourceMaps(!Encore.isProduction())
     // enables hashed filenames (e.g. app.abc123.css)
     .enableVersioning(Encore.isProduction())
-
     // enables @babel/preset-env polyfills
     .configureBabelPresetEnv((config) => {
         config.useBuiltIns = 'usage';
@@ -57,21 +57,21 @@ Encore
     // enables Sass/SCSS support
     .enableSassLoader()
 
-
     .enableVueLoader(() => {}, { runtimeCompilerBuild: false })
-    // uncomment if you use TypeScript
-    //.enableTypeScriptLoader()
 
-    // uncomment to get integrity="..." attributes on your script & link tags
-    // requires WebpackEncoreBundle 1.4 or higher
-    //.enableIntegrityHashes(Encore.isProduction())
+    .enableIntegrityHashes(Encore.isProduction())
+    .copyFiles({
+        from: './assets/img',
 
-    // uncomment if you're having problems with a jQuery plugin
-    //.autoProvidejQuery()
+        // optional target path, relative to the output dir
+        to: 'img/[path][name].[ext]',
 
-    // uncomment if you use API Platform Admin (composer req api-admin)
-    //.enableReactPreset()
-    //.addEntry('admin', './assets/admin.js')
+        // if versioning is enabled, add the file hash too
+        //to: 'images/[path][name].[hash:8].[ext]',
+
+        // only copy files matching this pattern
+        //pattern: /\.(png|jpg|jpeg)$/
+    })
 ;
 
 module.exports = Encore.getWebpackConfig();

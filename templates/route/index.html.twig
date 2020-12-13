@@ -11,6 +11,9 @@
 <div class="example-wrapper">
     <h1>Hello {{ controller_name }}! ✅</h1>
 
+    <div id="mapid" style="height: 50vh">
+    
+    </div>
     This friendly message is coming from:
     <ul>
         <li>Your controller at <code><a href="{{ '/home/max/SOC/2020-SOC-WEBAPP/src/Controller/RouteController.php'|file_link(0) }}">src/Controller/RouteController.php</a></code></li>
@@ -18,3 +21,13 @@
     </ul>
 </div>
 {% endblock %}
+
+
+
+{% block stylesheets %}
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+{{ encore_entry_link_tags('route')}}
+{% endblock stylesheets %}
+{% block javascripts %}
+    {{ encore_entry_script_tags('route') }}
+{% endblock javascripts %}

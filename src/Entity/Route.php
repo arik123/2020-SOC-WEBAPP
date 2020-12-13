@@ -20,17 +20,17 @@ class Route
     private $id;
 
     /**
-     * @ORM\Column(type="geometry")
+     * @ORM\Column(type="geometry", options={"geometry_type"="POINT", "srid"=4326})
      */
     private $source;
 
     /**
-     * @ORM\Column(type="geometry")
+     * @ORM\Column(type="geometry", options={"geometry_type"="POINT", "srid"=4326})
      */
     private $target;
 
     /**
-     * @ORM\Column(type="geometry")
+     * @ORM\Column(type="geometry", options={"geometry_type"="MULTILINESTRING", "srid"=4326})
      */
     private $way;
 
