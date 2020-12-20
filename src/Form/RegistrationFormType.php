@@ -76,6 +76,17 @@ class RegistrationFormType extends AbstractType
                     ],
                 'required' => false
             ])
+            ->add("about", TextType::class, [
+                'label' => "par slov o mne",
+                'constraints' => [
+                    new Length([
+                        'maxMessage' => 'Maximalna dlzka 255',
+                        // max length allowed by Symfony for security reasons
+                        'max' => 255,
+                    ]),
+                    ],
+                'required' => false
+            ])
             ->add("profilePicture", FileType::class, [
                 'label' => 'Profile picture',
 

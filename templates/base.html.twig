@@ -26,7 +26,7 @@
                         <a class="nav-link" href="{{ path('route') }}">Pridat jazdu</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ path('my_route') }}">Moje Jazdy</a>
+                        <a class="nav-link" href="{{ path('my_routes') }}">Moje Jazdy</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ path('profile') }}">Profil</a>
@@ -36,7 +36,7 @@
                     </li>
                     {% else %}
                     <li class="nav-item">
-                        <a class="nav-link">Prihlasit sa</a>
+                        <a class="nav-link" href="{{ path('app_login') }}">Prihlasit sa</a>
                     </li>
                     {% endif %}
                 </ul>

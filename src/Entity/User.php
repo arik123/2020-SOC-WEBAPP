@@ -80,6 +80,11 @@ class User implements UserInterface
      */
     private $passenger;
 
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $about;
+
     public function __construct()
     {
         $this->driver = new ArrayCollection();
@@ -266,7 +271,7 @@ class User implements UserInterface
     {
         if (!$this->passenger->contains($passenger)) {
             $this->passenger[] = $passenger;
-            $passenger->addPassenger($this);
+            $passenger->addPassengers($this);
         }
 
         return $this;
@@ -275,8 +280,20 @@ class User implements UserInterface
     public function removePassenger(Route $passenger): self
     {
         if ($this->passenger->removeElement($passenger)) {
-            $passenger->removePassenger($this);
+            $passenger->removePassengers($this);
         }
+
+        return $this;
+    }
+
+    public function getAbout(): ?string
+    {
+        return $this->about;
+    }
+
+    public function setAbout(?string $about): self
+    {
+        $this->about = $about;
 
         return $this;
     }

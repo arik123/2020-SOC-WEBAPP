@@ -55,7 +55,7 @@ class RouteController extends AbstractController
             $stmt = $conn->prepare($sql);
             $stmt->execute(['id' => $route->getId()]);
 
-            //TODO: FINISH THIS FUNCTION - VERIFY, SEND TO DB, process
+            
             return new Response(
                 "Start:" . $route->getSource()
                 . " End" . $route->getTarget()
@@ -65,6 +65,11 @@ class RouteController extends AbstractController
                 . " Driver: " . $request->request->get("driver")
             );
         } else {
+            //TODO: FINISH THIS FUNCTION - process, match
+            //take start, find if ST_DWithin
+            //find ST_ClosestPoint
+            //order by ST_DISTANCE closestP <-> target
+            //Maybe count walk dist ?
             return new Response();
         }
         
@@ -75,8 +80,9 @@ class RouteController extends AbstractController
      */
     public function myroute(): Response
     {
-        return $this->render('route/index.html.twig', [
-            'controller_name' => 'RouteController',
+        $routes = $this->getUser()->getDriver();
+        return $this->render('route/list.html.twig', [
+            'routes' => $routes,
         ]);
     }
 }

@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello RouteController!{% endblock %}
+
+{% block body %}
+{% for row in routes %}
+	{{row.seats}} {{row.driver.meno}}  {{row.driver.priezvisko}}<br>
+{% endfor %}
+{% endblock %}
+
+
+
+{% block stylesheets %}
+{{ encore_entry_link_tags('route')}}
+{% endblock stylesheets %}
+{% block javascripts %}
+    {{ encore_entry_script_tags('route') }}
+{% endblock javascripts %}
