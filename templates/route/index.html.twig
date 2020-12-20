@@ -3,6 +3,7 @@
 {% block title %}Hello RouteController!{% endblock %}
 
 {% block body %}
+<img src="{{asset('build/img/logo.svg')}}" alt="logo" style="max-height: 10vh; max-width: 100%;" class="m-1">
 <div id="app">
     
 </div>
@@ -11,7 +12,6 @@
 
 
 {% block stylesheets %}
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 {{ encore_entry_link_tags('route')}}
 {% endblock stylesheets %}
 {% block javascripts %}

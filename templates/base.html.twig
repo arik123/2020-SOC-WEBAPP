@@ -3,37 +3,54 @@
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
         {{ encore_entry_link_tags('base') }}
         {% block stylesheets %}{% endblock %}
     </head>
     <body>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
-            <a class="navbar-brand m-2">
+            <a class="navbar-brand m-2" href="{{ path('index')}}">
                 <img src="{{asset('build/img/logo.svg')}}" alt="" width="40" height="24" class="d-inline-block align-top m-1">
             </a>
             <button class="navbar-toggler m-2" data-target="#main-nav" data-toggle="collapse" aria-controls="main-nav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
+            
             <div id="main-nav" class="collapse navbar-collapse m-2">
-                <ul class="navbar-nav mr-auto">
+                <ul class="navbar-nav ml-auto">
+                    {% if app.user %}
                     <li class="nav-item active">
-                        <a class="nav-link" href="{{ path('index') }}">index</span></a>
+                        <a class="nav-link" href="{{ path('index') }}">kalendár</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ path('route') }}">route</a>
+                        <a class="nav-link" href="{{ path('route') }}">Pridat jazdu</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('my_route') }}">Moje Jazdy</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('profile') }}">Profil</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link">nastavenia</a>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link">Prihlasit sa</a>
+                    </li>
+                    {% endif %}
                 </ul>
+                {% if app.user %}
+                <form action="/logout" class="d-flex">
+                    <button class="btn btn-outline-success me-2" type="submit">Odhlasit sa</button>
+                </form>
+                {% endif %}
             </div>
         </nav>
         <div class="container text-center border border-2 border-info rounded mt-1">
             {% block body %}{% endblock %}
         </div>
         {% block javascripts %}{% endblock %}
-        {% if app.user %}
-        <div class="mb-3 w-50 mx-auto text-center">
-            You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
-        </div>
-    {% endif %}
     {{ encore_entry_script_tags('base') }}
     </body>
 </html>

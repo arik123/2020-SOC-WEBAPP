@@ -6,6 +6,7 @@ use App\Repository\RouteRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=RouteRepository::class)
@@ -30,7 +31,7 @@ class Route
     private $target;
 
     /**
-     * @ORM\Column(type="geometry", options={"geometry_type"="MULTILINESTRING", "srid"=4326})
+     * @ORM\Column(type="geometry", options={"geometry_type"="MULTILINESTRING", "srid"=4326}, nullable=true)
      */
     private $way;
 
@@ -42,6 +43,7 @@ class Route
 
     /**
      * @ORM\Column(type="bigint")
+     * @Assert\GreaterThan(0)
      */
     private $seats;
 
@@ -49,6 +51,16 @@ class Route
      * @ORM\ManyToMany(targetEntity=User::class, inversedBy="passengers")
      */
     private $passengers;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $Time;
+
+    /**
+     * @ORM\Column(type="float")
+     */
+    private $zachadzka;
 
     public function __construct()
     {
@@ -140,6 +152,42 @@ class Route
     public function removePassengers(User $passengers): self
     {
         $this->passengers->removeElement($passengers);
+
+        return $this;
+    }
+
+    public function getTime(): ?\DateTimeInterface
+    {
+        return $this->Time;
+    }
+
+    public function setTime(\DateTimeInterface $Time): self
+    {
+        $this->Time = $Time;
+
+        return $this;
+    }
+
+    public function getZachadzka(): ?float
+    {
+        return $this->zachadzka;
+    }
+
+    public function setZachadzka(float $zachadzka): self
+    {
+        $this->zachadzka = $zachadzka;
+
+        return $this;
+    }
+
+    public function getArea()
+    {
+        return $this->area;
+    }
+
+    public function setArea($area): self
+    {
+        $this->area = $area;
 
         return $this;
     }
