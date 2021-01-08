@@ -62,6 +62,15 @@ class Route
      */
     private $zachadzka;
 
+    /**
+     * 0 - no repeat
+     * 1 - weekly
+     * 3 - daily
+     * 2 - workday
+     * @ORM\Column(type="smallint")
+     */
+    private $repeat;
+
     public function __construct()
     {
         $this->passengers = new ArrayCollection();
@@ -188,6 +197,18 @@ class Route
     public function setArea($area): self
     {
         $this->area = $area;
+
+        return $this;
+    }
+
+    public function getRepeat(): ?int
+    {
+        return $this->repeat;
+    }
+
+    public function setRepeat(int $repeat): self
+    {
+        $this->repeat = $repeat;
 
         return $this;
     }

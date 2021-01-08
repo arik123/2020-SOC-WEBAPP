@@ -36,6 +36,7 @@ class RouteController extends AbstractController
                 ->setSeats($request->request->get("miesta"))
                 ->setTime($dt)
                 ->setZachadzka($request->request->get("zachadzka"))
+                ->setRepeat($request->request->get("repeat"))
             ;
             $errors = $validator->validate($route);
             if (count($errors) > 0) {
@@ -53,7 +54,7 @@ class RouteController extends AbstractController
                 )
                 WHERE r.id = :id';
             $stmt = $conn->prepare($sql);
-            $stmt->execute(['id' => $route->getId()]);
+            //$stmt->execute(['id' => $route->getId()]);
 
             
             return new Response(
@@ -66,11 +67,23 @@ class RouteController extends AbstractController
             );
         } else {
             //TODO: FINISH THIS FUNCTION - process, match
-            //take start, find if ST_DWithin
-            //find ST_ClosestPoint
-            //order by ST_DISTANCE closestP <-> target
-            //Maybe count walk dist ?
-            return new Response();
+            //take start, find if ST_DISTANCE < maximum
+            //order by ST_DISTANCE  <-> target
+            //posible to count walk dist, 
+            //match time
+            
+            $conn = $entityManager->getConnection();
+            $sql = '
+                select * from matchRoute(ST_GeomFromEWKT(\'' . preg_replace("/^LatLng\((-?\d+.?\d*?), (-?\d+.?\d*?)\)$/", "SRID=4326;POINT($2 $1)", $request->request->get("start")) . '\')::geography, 
+                ST_GeomFromEWKT(\'' . preg_replace("/^LatLng\((-?\d+.?\d*?), (-?\d+.?\d*?)\)$/", "SRID=4326;POINT($2 $1)", $request->request->get("start")) . '\')::geography,
+                timestamp \'' . $request->request->get("kedy") . '\',
+                ' . $request->request->get("repeat") . '
+            );';
+            $stmt = $conn->prepare($sql);
+            $stmt->execute();
+            var_dump($stmt->fetchAllAssociative());
+            return new Response(
+            );
         }
         
     }
