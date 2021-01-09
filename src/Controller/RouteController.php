@@ -67,11 +67,7 @@ class RouteController extends AbstractController
                 . " Driver: " . $request->request->get("driver")
             );
         } else {
-            //TODO: FINISH THIS FUNCTION - process, match
-            //take start, find if ST_DISTANCE < maximum
-            //order by ST_DISTANCE  <-> target
-            //posible to count walk dist, 
-            //match time
+            //TODO: FINISH THIS FUNCTION - THINK ABO
             
             $conn = $entityManager->getConnection();
             $sql = '
@@ -152,5 +148,7 @@ class RouteController extends AbstractController
             ]);
         }
         
-	}	
+    }	
+    
+    //TODO: REMOVE passanger from route
 }
