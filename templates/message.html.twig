@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{message}}{% endblock %}
+
+{% block body %}
+{{message}}
+{% endblock %}
+
+
+
+{% block stylesheets %}
+{{ encore_entry_link_tags('route')}}
+{% endblock stylesheets %}
+{% block javascripts %}
+    {{ encore_entry_script_tags('route') }}
+{% endblock javascripts %}

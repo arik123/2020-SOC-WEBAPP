@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -54,7 +55,7 @@ class RouteController extends AbstractController
                 )
                 WHERE r.id = :id';
             $stmt = $conn->prepare($sql);
-            //$stmt->execute(['id' => $route->getId()]);
+            $stmt->execute(['id' => $route->getId()]);
 
             
             return new Response(
@@ -75,15 +76,40 @@ class RouteController extends AbstractController
             $conn = $entityManager->getConnection();
             $sql = '
                 select * from matchRoute(ST_GeomFromEWKT(\'' . preg_replace("/^LatLng\((-?\d+.?\d*?), (-?\d+.?\d*?)\)$/", "SRID=4326;POINT($2 $1)", $request->request->get("start")) . '\')::geography, 
-                ST_GeomFromEWKT(\'' . preg_replace("/^LatLng\((-?\d+.?\d*?), (-?\d+.?\d*?)\)$/", "SRID=4326;POINT($2 $1)", $request->request->get("start")) . '\')::geography,
+                ST_GeomFromEWKT(\'' . preg_replace("/^LatLng\((-?\d+.?\d*?), (-?\d+.?\d*?)\)$/", "SRID=4326;POINT($2 $1)", $request->request->get("end")) . '\')::geography,
                 timestamp \'' . $request->request->get("kedy") . '\',
                 ' . $request->request->get("repeat") . '
             );';
             $stmt = $conn->prepare($sql);
             $stmt->execute();
-            var_dump($stmt->fetchAllAssociative());
-            return new Response(
-            );
+            $route_ids = $stmt->fetchAllAssociative();
+            if(count($route_ids) == 0) {
+                return $this->render('message.html.twig', [
+                    'message' => "nič sme nenašli :("
+                ]);
+            }
+            array_map(function($value) {
+                return $value["id"];
+            }, $route_ids);
+
+            $query = $entityManager->createQuery(
+                'SELECT r
+                FROM App\Entity\Route r
+                WHERE r.id in (:route_ids)
+                AND r.driver != :user'
+            )->setParameter('route_ids', $route_ids)
+            ->setParameter('user', $this->getUser());
+
+            $routes = $query->getResult();
+            if(count($routes) == 0) {
+                return $this->render('message.html.twig', [
+                    'message' => "nič sme nenašli :("
+                ]);
+            }
+            return $this->render('route/list.html.twig', [
+                'routes' => $routes,
+                'joinRoute' => true
+            ]);
         }
         
     }
@@ -93,9 +119,38 @@ class RouteController extends AbstractController
      */
     public function myroute(): Response
     {
-        $routes = $this->getUser()->getDriver();
+        $routes = new ArrayCollection(
+            array_merge($this->getUser()->getDriver()->toArray(), $this->getUser()->getPassenger()->toArray())
+        );
         return $this->render('route/list.html.twig', [
             'routes' => $routes,
+            'joinRoute' => true
         ]);
     }
+
+    /**
+     * @Route("/route/join/{id}", name="route_join")
+     */
+    public function joinRoute(int $id, EntityManagerInterface $entityManager): Response
+    {
+		$repository = $this->getDoctrine()->getRepository(myRoute::class);
+
+        $route = $repository->find($id);
+        if($route->getSeats() > 0 && !$route->passenger->contains($this->getUser())) {
+            $route->addPassenger($this->getUser());
+            $route->setSeats($route->getSeats()-1);
+            $entityManager->persist($route);
+
+            // actually executes the queries (i.e. the INSERT query)
+            $entityManager->flush();
+            return $this->render('message.html.twig', [
+                'message' => "pridanie k jazde bolo úspešné"
+            ]);
+        } else {
+            return $this->render('message.html.twig', [
+                'message' => "v jazde nieje dosť miest"
+            ]);
+        }
+        
+	}	
 }
