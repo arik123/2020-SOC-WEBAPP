@@ -37,7 +37,7 @@ class Route
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="routes")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(name="driver_id", referencedColumnName="id", nullable=false)
      */
     private $driver;
 
@@ -48,9 +48,10 @@ class Route
     private $seats;
 
     /**
-     * @ORM\ManyToMany(targetEntity=User::class, inversedBy="passengers")
+     * @ORM\ManyToMany(targetEntity=User::class, inversedBy="passenger")
+     * @ORM\JoinTable(name="user_route_passenger")
      */
-    private $passengers;
+    private $passenger;
 
     /**
      * @ORM\Column(type="datetime")
@@ -73,7 +74,7 @@ class Route
 
     public function __construct()
     {
-        $this->passengers = new ArrayCollection();
+        $this->passenger = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -144,23 +145,23 @@ class Route
     /**
      * @return Collection|User[]
      */
-    public function getPassengers(): Collection
+    public function getPassenger(): Collection
     {
-        return $this->passengers;
+        return $this->passenger;
     }
 
-    public function addPassengers(User $passengers): self
+    public function addPassenger(User $passenger): self
     {
-        if (!$this->passengers->contains($passengers)) {
-            $this->passengers[] = $passengers;
+        if (!$this->passenger->contains($passenger)) {
+            $this->passenger[] = $passenger;
         }
 
         return $this;
     }
 
-    public function removePassengers(User $passengers): self
+    public function removePassenger(User $passenger): self
     {
-        $this->passengers->removeElement($passengers);
+        $this->passenger->removeElement($passenger);
 
         return $this;
     }
