@@ -8,47 +8,55 @@
         {% block stylesheets %}{% endblock %}
     </head>
     <body>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
-            <a class="navbar-brand m-2" href="{{ path('index')}}">
-                <img src="{{asset('build/img/logo.svg')}}" alt="" width="40" height="24" class="d-inline-block align-top m-1">
-                Cestujme spolocne
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top">
+            <a class="navbar-brand mx-3" href="{{ path('index')}}">
+                <div class="d-inline">
+                    <img src="{{asset('build/img/logo.svg')}}" alt="" width="50" height="30" class="d-inline-block align-top m-1 fw-bold">
+                </div>
+                
+                <div class="d-inline fw-bold">
+                    Cestujme spoločne
+                </div>
+                
             </a>
             <button class="navbar-toggler m-2" data-target="#main-nav" data-toggle="collapse" aria-controls="main-nav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             
-            <div id="main-nav" class="collapse navbar-collapse m-2">
+            <div id="main-nav" class="collapse navbar-collapse mx-2 fw-bold">
                 <ul class="navbar-nav ml-auto">
                     {% if app.user %}
                     <li class="nav-item active">
-                        <a class="nav-link" href="{{ path('index') }}">kalendár</span></a>
+                        <a class="nav-link" href="{{ path('index') }}">KALENDÁR</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ path('route') }}">Pridat jazdu</a>
+                        <a class="nav-link" href="{{ path('route') }}">PRIDAŤ JAZDU</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ path('my_routes') }}">Moje Jazdy</a>
+                        <a class="nav-link" href="{{ path('my_routes') }}">MOJE JAZDY</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ path('profile') }}">Profil</a>
+                        <a class="nav-link" href="{{ path('profile') }}">PROFIL</a>
                     </li>
+                    <!--
                     <li class="nav-item">
-                        <a class="nav-link">nastavenia</a>
+                        <a class="nav-link">NASTAVENIA</a>
                     </li>
+                    -->
                     {% else %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ path('app_login') }}">Prihlasit sa</a>
+                        <a class="nav-link" href="{{ path('app_login') }}">PRIHLÁSIŤ SA</a>
                     </li>
                     {% endif %}
                 </ul>
                 {% if app.user %}
-                <form action="/logout" class="d-flex">
-                    <button class="btn btn-outline-success me-2" type="submit">Odhlasit sa</button>
+                <form action="/logout" class="d-flex  fw-bold">
+                    <button class="btn btn-outline-primary fw-bold bg-white me-2" type="submit">ODHLÁSIŤ SA</button>
                 </form>
                 {% endif %}
             </div>
         </nav>
-        <div class="container text-center border border-2 border-info rounded mt-1">
+        <div class="container text-center mt-1">
             {% block body %}{% endblock %}
         </div>
         {% block javascripts %}{% endblock %}

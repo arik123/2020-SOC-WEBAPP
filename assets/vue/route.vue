@@ -36,7 +36,6 @@
 				</div>
 			</div>
 			<div class="mb-3 w-50 mx-auto" v-if="driver">
-				
 				<label for="miesta" class="form-label">Počet volych miest</label>
 				<input type="number" class="form-control" name="miesta" id="miesta" v-model="miesta">
 				<label for="zachadzka" class="form-label">Zachádzka (KM)</label>

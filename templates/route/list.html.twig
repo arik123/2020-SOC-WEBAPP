@@ -4,7 +4,23 @@
 
 {% block body %}
 {% for row in routes %}
-	{{row.seats}} {{row.driver.meno}}  {{row.driver.priezvisko}}<br>
+<div class="border border-primary border-2 m-1" id="{{row.id}}">
+	Voľné miesta: {{row.seats}} <br>
+	Vodič: <a href="{{path('profile_param', {id: row.driver.id})}}">{{row.driver.meno}}  {{row.driver.priezvisko}}</a><br>
+	Čas: {{row.time.format("d.m.Y H:i")}} Opakovanie: 
+	{% if row.repeat==3 %}
+		denne
+	{% elseif row.repeat==2 %}
+		pracovne dni
+	{% elseif row.repeat==1 %}
+		tyzdenne
+	{% else %}
+		nie
+	{% endif %}
+	{% if joinRoute %}
+		<a href="{{path('route_join', {id: row.id})}}">Pridaj sa</a>
+	{% endif %}
+</div>
 {% endfor %}
 {% endblock %}
 
