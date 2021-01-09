@@ -271,7 +271,7 @@ class User implements UserInterface
     {
         if (!$this->passenger->contains($passenger)) {
             $this->passenger[] = $passenger;
-            $passenger->addPassengers($this);
+            $passenger->addPassenger($this);
         }
 
         return $this;
@@ -280,7 +280,7 @@ class User implements UserInterface
     public function removePassenger(Route $passenger): self
     {
         if ($this->passenger->removeElement($passenger)) {
-            $passenger->removePassengers($this);
+            $passenger->removePassenger($this);
         }
 
         return $this;
