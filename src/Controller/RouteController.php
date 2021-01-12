@@ -4,9 +4,11 @@ namespace App\Controller;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use phpDocumentor\Reflection\Types\This;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -157,17 +159,39 @@ class RouteController extends AbstractController
     /**
      * @Route("/route/cancel/{id}", name="route_cancel")
      */
-    public function cancelRoute(int $id, EntityManagerInterface $entityManager): Response
+    public function cancelRoute(int $id, EntityManagerInterface $entityManager, MailerInterface $mailer): Response
     {
         // TODO EMAIL NOTIFICATIONS
         $repository = $this->getDoctrine()->getRepository(myRoute::class);
 
         $route = $repository->find($id);
         if($route->getDriver() == $this->getUser()) {
+            $addresses = $route->getPassenger()->toArray();
+            $addresses = array_map(function($value) {
+                return $value->getEmail();
+            }, $addresses);
+            foreach($addresses as $address) {
+                $email = (new TemplatedEmail())
+                    ->from('cspolocne@gmail.com')
+                    ->to($address)
+                    //->cc('cc@example.com')
+                    ->bcc('cspolocne@gmail.com')
+                    //->replyTo('fabien@example.com')
+                    //->priority(Email::PRIORITY_HIGH)
+                    ->subject('Time for Symfony Mailer!')
+                    ->text('Sending emails is fun again!')
+                    ->htmlTemplate('email/cancel.html.twig')
+                    ->context(['row' => $route]);;
+
+                $mailer->send($email);
+            }
+
             $entityManager->remove($route);
 
             // actually executes the queries (i.e. the INSERT query)
             $entityManager->flush();
+
+
             return $this->render('message.html.twig', [
                 'message' => "jazda uspesne zrusena"
             ]);

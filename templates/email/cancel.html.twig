@@ -1,0 +1,20 @@
+Je nám to veľmi ľúto, ale vaša jazda:
+<div>
+    Vodič:
+        <a href="{{path('profile_param', {id: row.driver.id})}}">{{row.driver.meno}}  {{row.driver.priezvisko}}</a>
+    <br>
+    Čas: {{row.time.format("d.m.Y H:i")}} Opakovanie:
+    {% if row.repeat==3 %}
+        denne
+    {% elseif row.repeat==2 %}
+        pracovne dni
+    {% elseif row.repeat==1 %}
+        tyzdenne
+    {% else %}
+        nie
+    {% endif %}
+    <!--
+    TODO: ADD Cancel route
+    -->
+</div>
+bola <span style="color: #B0413E">ZRUŠENÁ</span>
