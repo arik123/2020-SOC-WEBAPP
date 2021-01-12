@@ -1,0 +1,26 @@
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello RouteController!{% endblock %}
+
+{% block body %}
+    <!-- TODO: this is duplicate to user profile -->
+    {% for user in users %}
+        <div class="border border-primary border-2 m-1" id="{{user.id}}">
+            {% if user.profilePicture %}
+                <img src="{{ asset('uploads/profile_pics/' ~ user.profilePicture) }}" alt="profile pic" class="rounded-circle">
+            {% else %}
+                <img src="{{ asset('img/basic_profile_picture.png') }}" alt="default profile pic"  class="rounded-circle">
+            {% endif %}
+            {{user.Meno}} {{user.Priezvisko}}
+            <br>
+            {{user.email}}
+            <br>
+            {user.phoneNumber}
+            {{user.carDescription}}
+            <br>
+            {{user.about}}
+        </div>
+    {% endfor %}
+
+{% endblock %}

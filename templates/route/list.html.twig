@@ -4,9 +4,18 @@
 
 {% block body %}
 {% for row in routes %}
-<div class="border border-primary border-2 m-1" id="{{row.id}}">
+<div class="border border-primary border-2 m-1" id="{{row.id}}"
+	 {# TODO: Modal instead of redirect #}
+	 {% if row.driver.id == app.user.id %} onclick="window.location.href = ` {{path( 'route_info' , {id: row.id}) }} `;" {% endif %}
+>
 	Voľné miesta: {{row.seats}} <br>
-	Vodič: <a href="{{path('profile_param', {id: row.driver.id})}}">{{row.driver.meno}}  {{row.driver.priezvisko}}</a><br>
+	Vodič:
+	{% if row.driver.id == app.user.id %}
+		JA
+	{% else %}
+		<a href="{{path('profile_param', {id: row.driver.id})}}">{{row.driver.meno}}  {{row.driver.priezvisko}}</a>
+	{% endif %}
+	<br>
 	Čas: {{row.time.format("d.m.Y H:i")}} Opakovanie: 
 	{% if row.repeat==3 %}
 		denne
@@ -19,16 +28,12 @@
 	{% endif %}
 	{% if joinRoute %}
 		<a href="{{path('route_join', {id: row.id})}}">Pridaj sa</a>
+	{% else %}
+		<a href="{{path('route_cancel', {id: row.id})}}">Zruš jazdu</a>
 	{% endif %}
+	<!--
+	TODO: ADD Cancel route
+	-->
 </div>
 {% endfor %}
 {% endblock %}
-
-
-
-{% block stylesheets %}
-{{ encore_entry_link_tags('route')}}
-{% endblock stylesheets %}
-{% block javascripts %}
-    {{ encore_entry_script_tags('route') }}
-{% endblock javascripts %}

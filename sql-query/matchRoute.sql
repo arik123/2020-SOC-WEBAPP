@@ -46,6 +46,6 @@ BEGIN
 	END IF;
 	return query select r.id, r.src_dst, r.dst_dst from routes as r
 		order by r.dst_dst;
-	-- TODO: CHECK DIRECTION
+	-- TODO: CHECK DIRECTION --- Maybe switch change multilinestring to string ?
 END;
 $$ LANGUAGE plpgsql;

@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use phpDocumentor\Reflection\Types\This;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -67,8 +68,6 @@ class RouteController extends AbstractController
                 . " Driver: " . $request->request->get("driver")
             );
         } else {
-            //TODO: FINISH THIS FUNCTION - THINK ABO
-            
             $conn = $entityManager->getConnection();
             $sql = '
                 select * from matchRoute(ST_GeomFromEWKT(\'' . preg_replace("/^LatLng\((-?\d+.?\d*?), (-?\d+.?\d*?)\)$/", "SRID=4326;POINT($2 $1)", $request->request->get("start")) . '\')::geography, 
@@ -112,16 +111,22 @@ class RouteController extends AbstractController
 
     /**
      * @Route("/route/list", name="my_routes")
+     * @return Response
      */
-    public function myroute(): Response
+    public function myRoutes(Request $request): Response
     {
+
         $routes = new ArrayCollection(
             array_merge($this->getUser()->getDriver()->toArray(), $this->getUser()->getPassenger()->toArray())
         );
+        if($request->query->get("json") == true) {
+            //return $this->json($routes); TODO FINISH SERIALIZATION and use it in calendar
+        }
         return $this->render('route/list.html.twig', [
             'routes' => $routes,
-            'joinRoute' => true
+            'joinRoute' => false
         ]);
+
     }
 
     /**
@@ -132,7 +137,7 @@ class RouteController extends AbstractController
 		$repository = $this->getDoctrine()->getRepository(myRoute::class);
 
         $route = $repository->find($id);
-        if($route->getSeats() > 0 && !$route->passenger->contains($this->getUser())) {
+        if($route->getSeats() > 0 && !$route->getPassenger()->contains($this->getUser())) {
             $route->addPassenger($this->getUser());
             $route->setSeats($route->getSeats()-1);
             $entityManager->persist($route);
@@ -147,8 +152,53 @@ class RouteController extends AbstractController
                 'message' => "v jazde nieje dosť miest"
             ]);
         }
-        
-    }	
-    
+    }
+
+    /**
+     * @Route("/route/cancel/{id}", name="route_cancel")
+     */
+    public function cancelRoute(int $id, EntityManagerInterface $entityManager): Response
+    {
+        // TODO EMAIL NOTIFICATIONS
+        $repository = $this->getDoctrine()->getRepository(myRoute::class);
+
+        $route = $repository->find($id);
+        if($route->getDriver() == $this->getUser()) {
+            $entityManager->remove($route);
+
+            // actually executes the queries (i.e. the INSERT query)
+            $entityManager->flush();
+            return $this->render('message.html.twig', [
+                'message' => "jazda uspesne zrusena"
+            ]);
+        } else if ($route->getPassenger()->contains($this->getUser())) {
+            $route->removePassenger($this->getUser());
+            $route->setSeats($route->getSeats()+1);
+            $entityManager->persist($route);
+
+            // actually executes the queries (i.e. the INSERT query)
+            $entityManager->flush();
+            return $this->render('message.html.twig', [
+                'message' => "uspesne odstraneny z jazdy"
+            ]);
+        }
+    }
+    /**
+     * @Route("/route/info/{id}", name="route_info")
+     */
+    public function routeInfo(int $id): Response
+    {
+        $repository = $this->getDoctrine()->getRepository(myRoute::class);
+
+        $route = $repository->find($id);
+        if($route->getDriver() == $this->getUser()) {
+            return $this->render('route/route_info.html.twig', [
+                'users' => $route->getPassenger()
+            ]);
+        } else {
+            return new Response('Detaily dostupne iba k tvojim jazdam', 401);
+        }
+    }
+
     //TODO: REMOVE passanger from route
 }

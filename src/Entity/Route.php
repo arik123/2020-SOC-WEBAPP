@@ -190,18 +190,6 @@ class Route
         return $this;
     }
 
-    public function getArea()
-    {
-        return $this->area;
-    }
-
-    public function setArea($area): self
-    {
-        $this->area = $area;
-
-        return $this;
-    }
-
     public function getRepeat(): ?int
     {
         return $this->repeat;
