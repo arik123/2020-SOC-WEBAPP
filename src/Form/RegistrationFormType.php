@@ -47,7 +47,7 @@ class RegistrationFormType extends AbstractType
                 ],
             ])
             ->add("Car", CheckboxType::class, [
-                'label' => "mám auto?",
+                'label' => "Mám auto?",
                 'required' => false
             ])
             ->add("Meno", TextType::class, [
@@ -66,7 +66,7 @@ class RegistrationFormType extends AbstractType
                 'required' => false
             ])
             ->add("CarDescription", TextType::class, [
-                'label' => "popis auta",
+                'label' => "Popis auta",
                 'constraints' => [
                     new Length([
                         'maxMessage' => 'Maximalna dlzka 255',
@@ -77,7 +77,7 @@ class RegistrationFormType extends AbstractType
                 'required' => false
             ])
             ->add("about", TextType::class, [
-                'label' => "par slov o mne",
+                'label' => "Pár slov o mne",
                 'constraints' => [
                     new Length([
                         'maxMessage' => 'Maximalna dlzka 255',

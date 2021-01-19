@@ -24,3 +24,4 @@ yarn-error.log
 
 /public/uploads/
 /.idea
+/sql-query/slovakia.osm.pbf
