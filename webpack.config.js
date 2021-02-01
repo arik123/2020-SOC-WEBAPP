@@ -26,6 +26,7 @@ Encore
     .addEntry('index', './assets/index.js')
     .addEntry('base', './assets/base.js')
     .addEntry('route', './assets/route.js')
+    .addEntry('route-info', './assets/route-info.js')
     //.addEntry('page1', './assets/page1.js')
     //.addEntry('page2', './assets/page2.js')
 

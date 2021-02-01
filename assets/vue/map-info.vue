@@ -6,7 +6,6 @@ import 'leaflet-defaulticon-compatibility';
 import { LMap } from 'vue2-leaflet';
 
 export default {
-  name: "MyAwesomeMap",
   components: {
     LMap
   },
@@ -19,13 +18,24 @@ export default {
       };
   },
   mounted() {
-    this.$nextTick(() => {
+    this.$nextTick(function() {
         this.map =  this.$refs.myMap.mapObject;
+		let url = window.location.href.replace(/\/[\d]+$/, '/map$&');
+		fetch(url)
+			.then((response) => {
+				return response.json();
+			})
+			.then((data) => {
+				let dat = L.geoJson(data);
+				let bounds = dat.getBounds();
+				dat.addTo(this.map);
+				this.map.fitBounds(bounds);
+			});
         this.map.fitBounds([//16.74	47.72	22.61	49.62
             [47.72, 16.74],
             [49.62, 22.61]
-        ]);;
-
+        ]);
+        
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             //TODO CHANGE MAP PROVIDER -- see OSM terms
@@ -54,6 +64,6 @@ export default {
 
 <template>
   <div>
-    <l-map ref="myMap" style="height: 30vh"></l-map>
+    <l-map ref="myMap" style="height: 40vh"></l-map>
   </div>
 </template>

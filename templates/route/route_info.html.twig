@@ -3,13 +3,15 @@
 
 {% block body %}
     <!-- TODO: this is duplicate to user profile -->
+    <div id="app"></div>
     {% for user in users %}
         <div class="border border-primary border-2 m-1" id="{{user.id}}">
             {% if user.profilePicture %}
-                <img src="{{ asset('uploads/profile_pics/' ~ user.profilePicture) }}" alt="profile pic" class="rounded-circle">
+            <img src="{{ asset('uploads/profile_pics/' ~ user.profilePicture) }}" alt="profile pic" class="rounded-circle" style="max-height: 20vh; max-width: 80%;">
             {% else %}
-                <img src="{{ asset('img/basic_profile_picture.png') }}" alt="default profile pic"  class="rounded-circle">
+                <img src="{{ asset('img/basic_profile_picture.png') }}" alt="default profile pic"  class="rounded-circle" style="max-height: 20vh; max-width: 80%;">
             {% endif %}
+            <br>
             {{user.Meno}} {{user.Priezvisko}}
             <br>
             {{user.email}}
@@ -22,3 +24,10 @@
     {% endfor %}
 
 {% endblock %}
+
+{% block stylesheets %}
+    {{ encore_entry_link_tags('route-info')}}
+{% endblock stylesheets %}
+{% block javascripts %}
+    {{ encore_entry_script_tags('route-info') }}
+{% endblock javascripts %}

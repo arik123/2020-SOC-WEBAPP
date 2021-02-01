@@ -14,6 +14,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use App\Entity\Route as myRoute;
 use \DateTime;
+use Symfony\Component\VarDumper\VarDumper;
 
 class RouteController extends AbstractController
 {
@@ -238,5 +239,27 @@ class RouteController extends AbstractController
         }
     }
 
-    //TODO: REMOVE passanger from route
+    /**
+     * @Route("/route/info/map/{id}", name="route_info_map")
+     */
+    public function mapInfo(int $id, EntityManagerInterface $entityManager): Response
+    {
+        $query = $entityManager->createQuery(
+            'SELECT ST_AsGeoJSON(r.way) as way
+            FROM App\Entity\Route r
+            WHERE r.id = :route_id
+            AND r.driver = :user'
+        )->setParameter('route_id', $id)
+        ->setParameter('user', $this->getUser());
+
+        
+        $routes = $query->getResult();
+        if(count($routes)) {
+
+            return new Response($routes[0]['way']);
+        } else {
+            return new Response('{}', 401);
+        }
+    } 
+
 }
