@@ -3,8 +3,8 @@
 namespace App\Controller;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use phpDocumentor\Reflection\Types\This;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Bridge\Twig\Mime\Email;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -60,7 +60,7 @@ class RouteController extends AbstractController
             $stmt = $conn->prepare($sql);
             $stmt->execute(['id' => $route->getId()]);
 
-            
+            /*
             return new Response(
                 "Start:" . $route->getSource()
                 . " End" . $route->getTarget()
@@ -68,7 +68,10 @@ class RouteController extends AbstractController
                 . " miesta" . $request->request->get("miesta")
                 . " zachadzka" . $request->request->get("zachadzka")
                 . " Driver: " . $request->request->get("driver")
-            );
+            );*/
+            return $this->render('message.html.twig', [
+                'message' => "Jazda úspešne vytvorená"
+            ]);
         } else {
             $conn = $entityManager->getConnection();
             $sql = '
@@ -82,7 +85,7 @@ class RouteController extends AbstractController
             $route_ids = $stmt->fetchAllAssociative();
             if(count($route_ids) == 0) {
                 return $this->render('message.html.twig', [
-                    'message' => "nič sme nenašli :("
+                    'message' => "Nič sme nenašli :("
                 ]);
             }
             array_map(function($value) {
@@ -100,7 +103,7 @@ class RouteController extends AbstractController
             $routes = $query->getResult();
             if(count($routes) == 0) {
                 return $this->render('message.html.twig', [
-                    'message' => "nič sme nenašli :("
+                    'message' => "Nič sme nenašli :("
                 ]);
             }
             return $this->render('route/list.html.twig', [
@@ -134,7 +137,7 @@ class RouteController extends AbstractController
     /**
      * @Route("/route/join/{id}", name="route_join")
      */
-    public function joinRoute(int $id, EntityManagerInterface $entityManager): Response
+    public function joinRoute(int $id, MailerInterface $mailer, EntityManagerInterface $entityManager): Response
     {
 		$repository = $this->getDoctrine()->getRepository(myRoute::class);
 
@@ -146,12 +149,24 @@ class RouteController extends AbstractController
 
             // actually executes the queries (i.e. the INSERT query)
             $entityManager->flush();
+            $email = (new TemplatedEmail())
+                ->from('cspolocne@gmail.com')
+                ->to($route->getDriver()->getEmail())
+                //->cc('cc@example.com')
+                ->bcc('cspolocne@gmail.com')
+                //->replyTo('fabien@example.com')
+                //->priority(Email::PRIORITY_HIGH)
+                ->subject('Time for Symfony Mailer!')
+                ->htmlTemplate('email/join.html.twig')
+                ->context(['row' => $route]);;
+
+            $mailer->send($email);
             return $this->render('message.html.twig', [
-                'message' => "pridanie k jazde bolo úspešné"
+                'message' => "Pridanie k jazde bolo úspešné"
             ]);
         } else {
             return $this->render('message.html.twig', [
-                'message' => "v jazde nieje dosť miest"
+                'message' => "V jazde nieje dosť miest"
             ]);
         }
     }
@@ -179,7 +194,6 @@ class RouteController extends AbstractController
                     //->replyTo('fabien@example.com')
                     //->priority(Email::PRIORITY_HIGH)
                     ->subject('Time for Symfony Mailer!')
-                    ->text('Sending emails is fun again!')
                     ->htmlTemplate('email/cancel.html.twig')
                     ->context(['row' => $route]);;
 
@@ -193,7 +207,7 @@ class RouteController extends AbstractController
 
 
             return $this->render('message.html.twig', [
-                'message' => "jazda uspesne zrusena"
+                'message' => "Jazda úspešne zrušená"
             ]);
         } else if ($route->getPassenger()->contains($this->getUser())) {
             $route->removePassenger($this->getUser());
@@ -203,7 +217,7 @@ class RouteController extends AbstractController
             // actually executes the queries (i.e. the INSERT query)
             $entityManager->flush();
             return $this->render('message.html.twig', [
-                'message' => "uspesne odstraneny z jazdy"
+                'message' => "Úspešne odstránený z jazdy"
             ]);
         }
     }
@@ -220,7 +234,7 @@ class RouteController extends AbstractController
                 'users' => $route->getPassenger()
             ]);
         } else {
-            return new Response('Detaily dostupne iba k tvojim jazdam', 401);
+            return new Response('Detaily dostupné iba k tvojim jazdám', 401);
         }
     }
 

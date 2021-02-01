@@ -2,7 +2,9 @@
   <div>
 	  
 		<div v-if="driver===null">
-			Som:
+			<h2 class="text-primary">
+				Som:
+			</h2>
 			<div @click="driver = false" class="btn btn-outline-primary d-block w-50 mx-auto my-3">
 				Spolujazdec
 			</div>
@@ -17,7 +19,7 @@
 			</button>
 			
 			<div class="mb-3">
-				Vyber začiatok a koniec
+				Vyber začiatok a koniec na mape
 				<Map @start="start = true" @end="end=true"/>
 			</div>
 			<div class="mb-3 w-50 mx-auto">
@@ -27,7 +29,7 @@
 					<div>Opakovanie</div>
 					<div>
 						<input type="radio" name="repeat" id="repeatNone" v-model="radio" value=0>
-						<label for="repeatNone">Vôbec</label>
+						<label for="repeatNone">Nikdy</label>
 					</div>
 					<div>
 						<input type="radio" name="repeat" id="repeatWeekly" v-model="radio" value=1>
@@ -44,12 +46,12 @@
 				</div>
 			</div>
 			<div class="mb-3 w-50 mx-auto" v-if="driver">
-				<label for="miesta" class="form-label">Počet voľných miest</label>
-				<input type="number" class="form-control" name="miesta" id="miesta" v-model="miesta">
-				<label for="zachadzka" class="form-label">Zachádzka (km)</label>
-				<input type="number" step="any" class="form-control" name="zachadzka" id="zachadzka" v-model="zachadzka">
+				<label for="miesta" class="form-label" >Počet voľných miest</label>
+				<input type="number" class="form-control" min=1 name="miesta" id="miesta" v-model="miesta">
+				<label for="zachadzka" class="form-label" >Zachádzka (km)</label>
+				<input type="number" step="any" class="form-control" min=0 name="zachadzka" id="zachadzka" v-model="zachadzka">
 			</div>
-			<button v-if="readyToSubmit" type="submit" class="btn btn-primary">{{driver?"Zadaj":"Vyhladaj"}}</button>
+			<button :disabled="readyToSubmit == false" type="submit" class="btn btn-primary">{{driver?"Zadaj":"Vyhľadaj"}}</button>
 		</form>
   </div>
 </template>

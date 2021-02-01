@@ -51,7 +51,7 @@ export default {
         this.map.on('locationfound', this.onLocationFound);
 
         function onLocationError(e) {
-            alert(e.message);
+            alert("nepodarilo sa nám zistiť polohu");
         }
 
         this.map.on('locationerror', onLocationError);

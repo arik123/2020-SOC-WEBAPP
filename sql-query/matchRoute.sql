@@ -41,7 +41,7 @@ BEGIN
 		END IF;
 	ELSEIF repeat_param = 0 then
 		DELETE FROM routes as r WHERE 
-			r.timeDiff > interval '00:10:00' AND
+			r.timeDiff > interval '00:30:00' AND
 			r.repeat = 0;
 	END IF;
 	return query select r.id, r.src_dst, r.dst_dst from routes as r

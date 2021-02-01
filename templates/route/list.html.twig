@@ -1,7 +1,5 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello RouteController!{% endblock %}
-
 {% block body %}
 {% for row in routes %}
 <div class="border border-primary border-2 m-1" id="{{row.id}}"
@@ -18,18 +16,19 @@
 	<br>
 	Čas: {{row.time.format("d.m.Y H:i")}} Opakovanie: 
 	{% if row.repeat==3 %}
-		denne
+		Denne
 	{% elseif row.repeat==2 %}
-		pracovne dni
+		Pracovné dni
 	{% elseif row.repeat==1 %}
-		tyzdenne
+		Týždeňne
 	{% else %}
-		nie
+		Nikdy
 	{% endif %}
+	<br>
 	{% if joinRoute %}
 		<a href="{{path('route_join', {id: row.id})}}">Pridaj sa</a>
 	{% else %}
-		<a href="{{path('route_cancel', {id: row.id})}}">Zruš jazdu</a>
+		<a href="{{path('route_cancel', {id: row.id})}}" class="text-danger">Zruš jazdu</a>
 	{% endif %}
 	<!--
 	TODO: ADD Cancel route

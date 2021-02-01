@@ -5,11 +5,7 @@ CREATE FUNCTION routeBetweenPointsFoot(
     start_pt geometry(POINT),
     end_pt geometry(POINT)
 )
-RETURNS returns table (
-		film_title varchar,
-		film_release_year int
-) 
-AS $$
+RETURNS geometry(MULTILINESTRING) AS $$
 DECLARE 
 --    start_pt geometry(POINT);
 --    end_pt geometry(POINT);

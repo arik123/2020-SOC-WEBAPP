@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Register{% endblock %}
+{% block title %}Registruj sa{% endblock %}
 
 {% form_theme registrationForm 'bootstrap_4_layout.html.twig' %}
 {% block body %}
@@ -8,7 +8,7 @@
         <div class="alert alert-danger" role="alert">{{ flashError }}</div>
     {% endfor %}
 
-    <h1>Register</h1>
+    <h1>Registrácia</h1>
 
     {{ form_start(registrationForm) }}
         {{ form_row(registrationForm.email)}}
@@ -21,12 +21,13 @@
         {{form_row(registrationForm.profilePicture, {
             label: 'Profilový obrázok'
         })}}
-        {{ form_row(registrationForm.Car)}}
+        {{ form_row(registrationForm.Car, {label_attr: { class: 'checkbox-custom'} }) }}
         {{ form_row(registrationForm.CarDescription)}}
         {{ form_row(registrationForm.agreeTerms, {
-            label: 'Súhlasim so spracovanim osobných údajov'
+            label: 'Súhlasím so spracovaním osobných údajov',
+            label_attr: {class: 'checkbox-custom'}
         }) }}
 
-        <button type="submit" class="btn btn-primary">Register</button>
+        <button type="submit" class="btn btn-primary">Registrovať</button>
     {{ form_end(registrationForm) }}
 {% endblock %}

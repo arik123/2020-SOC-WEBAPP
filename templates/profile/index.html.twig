@@ -1,20 +1,18 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello IndexController!{% endblock %}
-
 {% block stylesheets %}
 {% endblock stylesheets %}
 
 {% block body %}
 <div>
-	<div>
-		profile
-	</div>
+	<h2>
+		Profil
+	</h2>
 	<div>
 		{% if user.profilePicture %}
-		<img src="{{ asset('uploads/profile_pics/' ~ user.profilePicture) }}" alt="profile pic" class="rounded-circle">
+		<img src="{{ asset('uploads/profile_pics/' ~ user.profilePicture) }}" alt="profile pic" class="rounded-circle" style="max-height: 60vh; max-width: 80%;">
 		{% else %}
-			<img src="{{ asset('img/basic_profile_picture.png') }}" alt="default profile pic"  class="rounded-circle">
+			<img src="{{ asset('img/basic_profile_picture.png') }}" alt="default profile pic"  class="rounded-circle" style="max-height: 60vh; max-width: 80%;">
 		{% endif %}
 	</div>
 	<div>

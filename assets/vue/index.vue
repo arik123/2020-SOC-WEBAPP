@@ -56,11 +56,11 @@ export default {
             console.log(Class.split('-')[2])
         },
         handleDateClick: function(arg) {
-            this.$refs.editModal.show();
+            //this.$refs.editModal.show();
             console.log(arg);
         },
         handleEventClick: function(arg) {
-            this.$refs.editModal.show();
+            //this.$refs.editModal.show();
             console.log(arg);
         },
     },
